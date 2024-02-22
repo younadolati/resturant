@@ -1,0 +1,42 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="http://127.0.0.1:8000/static/cs.css">
+<style>
+.n{
+    border-radius: 25px;
+    background-color:#ff4000 ;
+}
+.n:hover{
+    box-shadow: 0px 0px 5px #ff4000,
+    0px 0px 20px #ff4000,
+    0px 0px 80px #ff4000;
+}
+</style>
+</head>
+<body>
+{% include 'navbar.html' %}
+
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            {% for i in myvar %}
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{i.name}}</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+    
+</body>
+</html>

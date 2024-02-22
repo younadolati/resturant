@@ -1,0 +1,451 @@
+
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+<style>
+
+/* general styles */
+img {
+  width: 100%;
+  max-height: 100px;
+  display: block;
+  object-fit: cover;
+}
+
+/* gallery image */
+.gallery {
+  width: 100%;
+  height: 220px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(50px, 1fr));
+  grid-template-rows: repeat(5, 1fr);
+  gap: 2px;
+}
+
+.one {
+  grid-column: 1 / 3;
+}
+
+.two {
+  grid-column: 3 / 4;
+}
+
+.three {
+  grid-column: 1 / 2;
+
+}
+.four {
+  grid-column: 2 / 4;
+}
+
+.gallery__images-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1; /* satacking context */
+  transition: background-color 0.5s;
+}
+
+.overlay:hover {
+  background-color: transparent;
+}
+
+.gallery__images-small {
+  transform: scale(1);
+  transition: transform 0.4s;
+}
+
+.overlay:hover + .gallery__images-small {
+  transform: scale(1.3);
+}
+
+/* style lightbox */
+.gallery__lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+
+.gallery__lightbox-content {
+  width: 80%;
+  height: 250px;
+  position: relative;
+}
+
+.close,
+.back,
+.next {
+  position: absolute;
+  text-decoration: none;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.close {
+  top: -20px;
+  right: 0;
+  background-color: #bd1e1e;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+}
+
+.back,
+.next {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background-color: #bdbec9a3;
+  color: #000;
+}
+
+.back {
+  left: 0;
+}
+
+.next {
+  right: 0;
+}
+
+.gallery__lightbox-image {
+  box-shadow: 1px 1px 5px 1px #320917, -1px -1px 5px 1px #320917;
+  border-radius: 4px;
+}
+
+.gallery__lightbox:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.intro { 
+  text-align: center; 
+  font-family: Arial;
+}
+
+h2 { 
+  font-size: 36px;
+}
+
+p { 
+  font-size: 14pt;
+}
+
+#image-gallery { 
+  width: 100%; 
+  margin: 0 auto;
+}
+
+#current-image { 
+  width: 100%;
+} 
+
+#image-thumbs { 
+  display: flex; 
+  justify-content: center; 
+  margin-top: 20px;
+}
+
+.thumb { 
+  width: 80px; 
+  height: 80px; 
+  object-fit: cover; 
+  margin-right: 10px; 
+  cursor: pointer;
+}
+
+
+
+
+.waviy span {
+  display: inline-block;
+  font-size: 40px;
+  color: #fff;
+  text-transform: uppercase;
+  animation: flip 2s infinite;
+  animation-delay: calc(.2s * var(--i))
+}
+@keyframes flip {
+  0%,80% {
+    transform: rotateY(360deg) 
+  }
+}
+
+.ert1{
+  transition: transform;
+  transition-duration: 1s;
+}
+
+.ert1:hover{
+  transform: translate(0px,-5px);
+
+}
+
+.b{
+  border-radius: 150px;
+}
+
+@keyframes animateWave {
+  0% {
+    transform: scale(1,0);
+  }
+  100% {
+    transform: scale(1,1);
+  }
+}
+.wave-container > svg {
+  display: block;
+  transform-origin: top;
+  animation: animateWave 10000ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes animateWave {
+  0% {
+    transform: scale(1,0);
+  }
+  100% {
+    transform: scale(1,1);
+  }
+}
+.wave-container1 > svg {
+  /* display: block; */
+  transform-origin: bottom;
+  animation: animateWave 10000ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+    
+</style>
+<link type="text/css" rel="stylesheet" href="css/lightGallery.css" /> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+
+</head>
+<body>
+<header class="wave-container">
+    <div class="container">
+        <div class="row" >
+            <nav class="navbar fixed-top"  style="background-color: #ff4000;height: 50px;box-shadow: 2px 2px 60px rgb(189, 189, 186);" >
+                <div class="container-fluid">
+                  <span class="navbar-brand  mb-0 h1" >Navbar</span>
+                  <div class="waviy">
+                    <span style="--i:1">
+                        <i class="bi bi-dice-6-fill"></i>
+                    </span>
+                   </div>
+                </div> 
+            </nav>
+        </div>
+    </div>
+  <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ff4000" fill-opacity="1" d="M0,96L48,96C96,96,192,96,288,80C384,64,480,32,576,26.7C672,21,768,43,864,74.7C960,107,1056,149,1152,149.3C1248,149,1344,107,1392,85.3L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
+</header>
+<!-- <section style="position: absolute;top: 100px;width: 250px;">
+    <div class="container">
+        <div class="row" >
+            <div class="intro" style="width: 100%;"> 
+                <div id="image-gallery" >
+                <img id="current-image" src="1.jpg" alt="Image 1" style="width: 100%;max-height: 200px;"> 
+            <div class="container-fluid">
+                <div id="image-thumbs" ></div> 
+            </div>
+            </div>
+    </div>
+</section> -->
+<section >
+    <div class="container">
+       <div class="row" >
+        <div class="gallery" style="background-color: #320917;">
+    
+            <!-- image gallery -->
+            <div class="gallery__images-item one">
+              <a href="#1" class="gallery__images-link">
+                <span class="overlay"></span>
+                <img src="no.jpg" class="gallery__images-small" />
+              </a>
+            </div>
+          
+            <div class="gallery__images-item two">
+              <a href="#2" class="gallery__images-link">
+                <span class="overlay"></span>
+                <img src="3.jpg" class="gallery__images-small" />
+              </a>
+            </div>
+          
+            <div class="gallery__images-item three">
+              <a href="#3" class="gallery__images-link">
+                <span class="overlay"></span>
+                <img src="dio.jpg" class="gallery__images-small" />
+              </a>
+            </div>
+            <div class="gallery__images-item four">
+                <a href="#4" class="gallery__images-link">
+                  <span class="overlay"></span>
+                  <img src="mi.avif" class="gallery__images-small" />
+                </a>
+            </div>
+        </div>
+       </div>
+    </div>
+</section>
+<br>
+<br>
+<br>
+<br>
+<br>
+<section class="container-fluid" style="position: absolute;top: 600px;">
+<!-- <nav id="navbar-example2" class="navbar bg-body-tertiary px-3 mb-3">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link" href="#scrollspyHeading1">First</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#scrollspyHeading2">Second</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Dropdown</a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#scrollspyHeading3">Third</a></li>
+          <li><a class="dropdown-item" href="#scrollspyHeading4">Fourth</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#scrollspyHeading5">Fifth</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav> -->
+  <nav aria-label="breadcrumb" id="navbar-example2">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#scrollspyHeading1">تاریخچه</a></li>
+      <li class="breadcrumb-item"><a href="#scrollspyHeading2">سلامت</a></li>
+      <li class="breadcrumb-item"><a href="#scrollspyHeading3">شعبات</a></li>
+      <li class="breadcrumb-item"><a href="#scrollspyHeading4">افتخارات</a></li>
+      <li class="breadcrumb-item"><a href="#scrollspyHeading5">همکاری</a></li>
+
+    </ol>
+  </nav>
+  <div data-bs-spy="scroll" data-bs-target="#navbar-example2" style="position: relative;height: 300px;overflow: auto;" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" class="scrollspy-example bg-body-tertiary p-3 rounded-2" tabindex="0">
+    <h4 id="scrollspyHeading1">تاریخچه</h4>
+    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+    </p>
+    <h4 id="scrollspyHeading2">سلامت</h4>
+    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+    </p>
+    <h4 id="scrollspyHeading3">شعبات</h4>
+    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+    </p>
+    <h4 id="scrollspyHeading4">افتخارات</h4>
+    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+    </p>
+    <h4 id="scrollspyHeading5">همکاری</h4>
+    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+    </p>
+   </div>
+</section>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+
+<section class="container-fluid" style="position: absolute;top: 1100px;">
+  <div class="row " style="height: 70px;">
+   <div class="col-sm-4 b" style="background-color: #f9dd4b;height:100%;">
+      <img src="ins.png" class="ert1"  alt="" style="max-width: 70px;max-height:50px;margin-top: 10px;margin-right:120px ;filter: drop-shadow(3px 1px 2px #fff);">
+    </div>
+    <div class="col-sm-4 b" style="background-color: #5c4bf9;height:100%;">
+      <img src="whts.png" class="ert1" alt="" style="max-width: 70px;max-height:50px;margin-top: 10px;margin-right: 120px;filter: drop-shadow(3px 1px 2px #fff);">
+    </div> 
+    <div class="col-sm-4 b" style="background-color: #bd1e1e;height:100%;">
+      <img src="tel.png" class="ert1" alt="" style="max-width: 70px;max-height:50px;margin-right: 120px;margin-top: 10px;filter: drop-shadow(3px 1px 2px #fff);">
+    </div>
+  </div>
+</section>
+
+<footer class="fixed-bottom wave-container1" style="position: absolute;top: 1200px;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ff4000" fill-opacity="1" d="M0,192L48,197.3C96,203,192,213,288,208C384,203,480,181,576,176C672,171,768,181,864,208C960,235,1056,277,1152,272C1248,267,1344,213,1392,186.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+
+    <div class="container-fluid">
+        <div class="row d-flex  justify-content-between" style="background-color: #ff4000;">
+            <div class="col-md-4 mt-2 p-2" style="border-radius: 20px;border-color: #f9dd4b;border-style: dashed;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d51104.03172267125!2d50.832204345378024!3d36.81847240618867!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8b9056a4e8558f%3A0x170df340568f6f85!2sTonekabon%2C%20Mazandaran%20Province%2C%20Iran!5e0!3m2!1sen!2s!4v1706031425932!5m2!1sen!2s"  style="border:0;height: 200px;width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="col-md-4 mb-2 mt-3">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">An item</li>
+                    <li class="list-group-item ">A second item</li>
+                    <li class="list-group-item ">A third item</li>
+                    <li class="list-group-item ">A fourth item</li>
+                    <li class="list-group-item ">And a fifth one</li>
+                </ul>
+            </div>
+            <div class="col-md-4 mb-2 mt-3">
+                <ul class="list-group list-group-flush" >
+                    <li class="list-group-item">An item</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item ">And a fifth one</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<!-- <script>
+var imageThumbs = document.getElementById("image-thumbs");
+var currentImage = document.getElementById("current-image");
+
+for (var i = 1; i <= 3; i++) {
+  var thumb = document.createElement("img");
+  thumb.src =  i + ".jpg";
+  thumb.alt = "Image " + i;
+  thumb.classList.add("thumb");
+  imageThumbs.appendChild(thumb);
+  thumb.addEventListener(
+    "click", function() {
+      currentImage.src = this.src;
+    }
+  );
+}
+</script> -->
+
+
+    
+
+
+</body>
+</html>
